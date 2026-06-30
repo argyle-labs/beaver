@@ -1,0 +1,5 @@
+# Never commit machine-specific config or secrets
+config.env
+*.key
+*.pem
+restic.key
