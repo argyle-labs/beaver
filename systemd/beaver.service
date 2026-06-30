@@ -1,5 +1,5 @@
 [Unit]
-Description=linux-backup (restic) - capture state + back up home
+Description=beaver (restic) - capture state + back up home
 Wants=network-online.target
 After=network-online.target
 

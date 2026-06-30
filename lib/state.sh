@@ -4,7 +4,7 @@
 #   state.sh restore-packages  -> reinstall from manifests
 # Sourced helpers also usable directly. Honors $STATE_DIR (default below).
 set -euo pipefail
-STATE_DIR="${STATE_DIR:-$HOME/.local/state/linux-backup}"
+STATE_DIR="${STATE_DIR:-$HOME/.local/state/beaver}"
 
 _distro() { [ -r /etc/os-release ] && . /etc/os-release && echo "${ID:-} ${ID_LIKE:-}"; }
 

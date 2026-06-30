@@ -22,12 +22,12 @@ if [ "${1:-}" = "--timer" ]; then
   echo "== Installing user timer"
   mkdir -p "$HOME/.config/systemd/user"
   # Point the unit at this checkout
-  sed "s#@HERE@#$HERE#g" "$HERE/systemd/linux-backup.service" > "$HOME/.config/systemd/user/linux-backup.service"
-  install -m644 "$HERE/systemd/linux-backup.timer" "$HOME/.config/systemd/user/linux-backup.timer"
+  sed "s#@HERE@#$HERE#g" "$HERE/systemd/beaver.service" > "$HOME/.config/systemd/user/beaver.service"
+  install -m644 "$HERE/systemd/beaver.timer" "$HOME/.config/systemd/user/beaver.timer"
   systemctl --user daemon-reload
-  systemctl --user enable --now linux-backup.timer
-  echo "   enabled: $(systemctl --user is-enabled linux-backup.timer)"
-  echo "   next run: $(systemctl --user list-timers linux-backup.timer --no-legend 2>/dev/null | awk '{print $1, $2}')"
+  systemctl --user enable --now beaver.timer
+  echo "   enabled: $(systemctl --user is-enabled beaver.timer)"
+  echo "   next run: $(systemctl --user list-timers beaver.timer --no-legend 2>/dev/null | awk '{print $1, $2}')"
 fi
 
 echo "== Next: cp config.env.example config.env && chmod 600 config.env  (then edit), then ./backup.sh"

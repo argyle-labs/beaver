@@ -1,5 +1,5 @@
 [Unit]
-Description=Daily linux-backup run
+Description=Daily beaver run
 
 [Timer]
 OnCalendar=daily

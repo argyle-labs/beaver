@@ -1,4 +1,4 @@
-# linux-backup
+# beaver
 
 Reproducible **backup & restore** for Linux workstations — captures declarative
 system state and home/user data, and pushes it to multiple destinations with
@@ -30,8 +30,8 @@ Each is a restic repository; `backup.sh` writes to every one that's configured.
 ## Quick start
 
 ```bash
-git clone https://github.com/argyle-labs/linux-backup.git
-cd linux-backup
+git clone https://github.com/argyle-labs/beaver.git
+cd beaver
 ./bootstrap.sh                      # install restic + deps for your distro
 cp config.env.example config.env    # then edit: destinations, excludes, creds
 chmod 600 config.env
