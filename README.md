@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon-256.png" width="120" alt="beaver" />
+</p>
+
 # beaver
 
 Reproducible **backup & restore** for Linux workstations — captures declarative
