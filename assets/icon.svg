@@ -12,23 +12,53 @@
     </pattern>
   </defs>
   <g clip-path="url(#tile)"><rect x="16" y="16" width="480" height="480" fill="url(#argyle)"/></g>
-  <rect x="16" y="16" width="480" height="480" rx="108" fill="none" stroke="#2BD3D3" stroke-width="6"/>
-  <!-- Beaver face silhouette: round head, small round ears, wide nose, signature buck teeth. -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="none" stroke="#56AB7B" stroke-width="6"/>
+
+  <!-- Cute cartoon beaver in the raccoon's line-art style: green fill with dark
+       outlines. Big friendly eyes, broad nose, signature buck teeth. -->
+  <g stroke-linejoin="round">
+    <!-- outer ears (behind head) -->
+    <circle cx="180" cy="126" r="37" fill="#56AB7B" stroke="#0B1712" stroke-width="7"/>
+    <circle cx="332" cy="126" r="37" fill="#56AB7B" stroke="#0B1712" stroke-width="7"/>
+    <!-- inner ears: also behind the head, so the head clips them like the outer ear -->
+    <circle cx="180" cy="126" r="29" fill="#0B1712"/>
+    <circle cx="332" cy="126" r="29" fill="#0B1712"/>
+    <!-- head (covers/cuts off the lower part of the ears + inner ears) -->
+    <path d="M256 116 C340 116 400 176 400 254 C400 320 356 370 298 384
+             C284 388 228 388 214 384 C156 370 112 320 112 254
+             C112 176 172 116 256 116 Z" fill="#56AB7B" stroke="#0B1712" stroke-width="7"/>
+  </g>
+
   <g>
-    <!-- ears -->
-    <circle cx="180" cy="178" r="30" fill="#56AB7B"/>
-    <circle cx="332" cy="178" r="30" fill="#56AB7B"/>
-    <circle cx="180" cy="178" r="14" fill="#123026"/>
-    <circle cx="332" cy="178" r="14" fill="#123026"/>
-    <!-- head -->
-    <ellipse cx="256" cy="254" rx="126" ry="114" fill="#56AB7B"/>
-    <!-- eyes -->
-    <circle cx="214" cy="234" r="15" fill="#123026"/>
-    <circle cx="298" cy="234" r="15" fill="#123026"/>
+
+    <!-- cheeks (soft blush) -->
+    <circle cx="166" cy="298" r="20" fill="#6FBF92" opacity="0.55"/>
+    <circle cx="346" cy="298" r="20" fill="#6FBF92" opacity="0.55"/>
+
+    <!-- eyes: dark with a big glossy catchlight + a small secondary sparkle -->
+    <ellipse cx="206" cy="228" rx="25" ry="28" fill="#0B1712"/>
+    <ellipse cx="306" cy="228" rx="25" ry="28" fill="#0B1712"/>
+    <circle cx="215" cy="218" r="10" fill="#DCF1E6"/>
+    <circle cx="315" cy="218" r="10" fill="#DCF1E6"/>
+    <circle cx="199" cy="236" r="4.5" fill="#DCF1E6"/>
+    <circle cx="299" cy="236" r="4.5" fill="#DCF1E6"/>
+
     <!-- nose -->
-    <ellipse cx="256" cy="290" rx="32" ry="21" fill="#123026"/>
-    <!-- buck teeth -->
-    <rect x="244" y="306" width="9" height="44" rx="3" fill="#E8F3EC"/>
-    <rect x="259" y="306" width="9" height="44" rx="3" fill="#E8F3EC"/>
+    <path d="M226 266 C238 257 274 257 286 266 C296 276 296 290 286 298
+             C274 306 238 306 226 298 C216 290 216 276 226 266 Z" fill="#0B1712"/>
+
+    <!-- philtrum: nose down to the mouth -->
+    <path d="M256 304 L256 322" fill="none" stroke="#0B1712" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- slightly-open happy mouth (small dark opening), corners turned up -->
+    <path d="M214 324 Q234 316 256 321 Q278 316 298 324 Q294 350 256 355 Q218 350 214 324 Z" fill="#0B1712"/>
+    <g fill="none" stroke="#0B1712" stroke-width="7" stroke-linecap="round">
+      <path d="M216 324 Q202 315 190 320"/>
+      <path d="M296 324 Q310 315 322 320"/>
+    </g>
+
+    <!-- buck teeth at the top of the mouth -->
+    <rect x="234" y="320" width="21" height="34" rx="6" fill="#DCF1E6" stroke="#0B1712" stroke-width="3"/>
+    <rect x="257" y="320" width="21" height="34" rx="6" fill="#DCF1E6" stroke="#0B1712" stroke-width="3"/>
   </g>
 </svg>
