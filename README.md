@@ -46,10 +46,27 @@ chmod 600 config.env
 ./restore.sh --packages             # reinstall packages from the captured manifest
 ```
 
-Automate with the included systemd timer:
+## Verify your backups
+
+A backup you never check is a guess. `check.sh` verifies the setup is healthy —
+the encryption key exists (and is `600`), every configured repo is reachable,
+the newest snapshot isn't stale, and the state manifest is fresh:
 
 ```bash
-./bootstrap.sh --timer              # installs + enables a daily user timer
+./check.sh              # human-readable report (read-only, never writes a repo)
+./check.sh --verify     # also run `restic check` (repo-structure integrity)
+./check.sh --json       # machine-readable issues (shape mirrors orca's Issue type)
+./check.sh --notify     # push a WARN/CRIT summary to NTFY_URL (see config.env)
+```
+
+Exit code: `0` all-OK, `1` any WARN, `2` any CRIT. Age thresholds
+(`MAX_SNAPSHOT_AGE_DAYS`, `MAX_STATE_AGE_DAYS`) and `NTFY_URL` live in `config.env`.
+
+Automate with the included systemd timers:
+
+```bash
+./bootstrap.sh --timer              # enables a daily backup timer + a daily
+                                    # health-check timer (check.sh --notify)
 ```
 
 ## Restore a machine from scratch
@@ -61,6 +78,7 @@ Automate with the included systemd timer:
    the manifest.
 4. `./restore.sh --target <nas|extdrive|cloud>` — restores `~` data.
 5. Reboot (Bazzite: after `rpm-ostree` changes).
+6. `./check.sh --verify` — confirm the repos you restored from are healthy.
 
 See [docs/NOTES.md](docs/NOTES.md) for per-distro gotchas.
 

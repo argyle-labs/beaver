@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily beaver backup health check
+
+[Timer]
+# A few hours after the backup run, so a stale/failed backup surfaces same-day.
+OnCalendar=*-*-* 15:00:00
+Persistent=true
+RandomizedDelaySec=15m
+
+[Install]
+WantedBy=timers.target

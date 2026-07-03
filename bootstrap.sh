@@ -5,6 +5,7 @@
 #   ./bootstrap.sh --timer   also install + enable the systemd --user timer
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
 distro() { [ -r /etc/os-release ] && . /etc/os-release && echo "${ID:-} ${ID_LIKE:-}"; }
 
 if ! command -v restic >/dev/null; then
@@ -24,9 +25,12 @@ if [ "${1:-}" = "--timer" ]; then
   # Point the unit at this checkout
   sed "s#@HERE@#$HERE#g" "$HERE/systemd/beaver.service" > "$HOME/.config/systemd/user/beaver.service"
   install -m644 "$HERE/systemd/beaver.timer" "$HOME/.config/systemd/user/beaver.timer"
+  # Companion health-check timer (verifies backups + notifies on trouble).
+  sed "s#@HERE@#$HERE#g" "$HERE/systemd/beaver-check.service" > "$HOME/.config/systemd/user/beaver-check.service"
+  install -m644 "$HERE/systemd/beaver-check.timer" "$HOME/.config/systemd/user/beaver-check.timer"
   systemctl --user daemon-reload
-  systemctl --user enable --now beaver.timer
-  echo "   enabled: $(systemctl --user is-enabled beaver.timer)"
+  systemctl --user enable --now beaver.timer beaver-check.timer
+  echo "   enabled: beaver.timer=$(systemctl --user is-enabled beaver.timer) beaver-check.timer=$(systemctl --user is-enabled beaver-check.timer)"
   echo "   next run: $(systemctl --user list-timers beaver.timer --no-legend 2>/dev/null | awk '{print $1, $2}')"
 fi
 

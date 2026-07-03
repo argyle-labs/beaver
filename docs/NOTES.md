@@ -36,3 +36,8 @@
 - The home backup excludes re-downloadable bulk (Steam `steamapps`, `~/Games`,
   caches). Game *saves* in `~/.var/app`, `~/.local/share`, and prefixes are kept.
 - Test restores periodically — a backup you've never restored is a guess.
+- `./check.sh` is the automated half of that discipline: it flags a missing key,
+  an unreachable repo, a stale/absent snapshot, or a stale state manifest, and
+  (`--notify`) pushes to ntfy. It's read-only — it never writes to a repo — and
+  the `--timer` install runs it daily a few hours after the backup, so a failed
+  or stale backup surfaces the same day instead of the day you need it.

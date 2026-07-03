@@ -1,0 +1,9 @@
+[Unit]
+Description=beaver check - verify backups are healthy + notify on trouble
+
+[Service]
+Type=oneshot
+# Health-check only (never writes to a repo). Pushes to NTFY_URL on WARN/CRIT
+# if configured. View: journalctl --user -u beaver-check.
+ExecStart=@HERE@/check.sh --notify
+Nice=15
