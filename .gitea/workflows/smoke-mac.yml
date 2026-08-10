@@ -1,9 +1,0 @@
-name: smoke-mac-fresh
-on: push
-jobs:
-  mac:
-    runs-on: macos-14
-    steps:
-      - run: |
-          echo "MACOS smoke arch=$(uname -m) host=$(hostname)"
-          echo "tailnet-check:"; scutil --dns >/dev/null 2>&1 && echo dns-ok
