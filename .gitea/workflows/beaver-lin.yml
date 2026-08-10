@@ -1,7 +1,0 @@
-name: beaver-lin-control
-on: push
-jobs:
-  lin:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "beaver linux control"
