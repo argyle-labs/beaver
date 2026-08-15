@@ -1,0 +1,40 @@
+name: CI
+
+# beaver is a shell/systemd plugin (bootstrap + backup/restore scripts), NOT a
+# docker-compose or Rust plugin — so neither plugin-ci.yml (cargo) nor
+# compose-ci.yml (docker compose) applies. Its gate is script correctness:
+# every shell script must parse (bash -n) and pass ShellCheck at error severity.
+# Kept inline (not a reusable) because beaver is the fleet's only shell plugin;
+# a one-caller reusable would be a thin wrapper.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bash syntax check (bash -n)
+        run: |
+          set -euo pipefail
+          any=0
+          while IFS= read -r f; do
+            any=1
+            echo "→ bash -n $f"
+            bash -n "$f"
+          done < <(find . -type f -name '*.sh' -not -path './.git/*')
+          [ "$any" = 1 ] || { echo "::error::no shell scripts found to check"; exit 1; }
+
+      - name: ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          severity: error
