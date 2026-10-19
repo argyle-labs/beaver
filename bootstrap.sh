@@ -5,6 +5,7 @@
 #   ./bootstrap.sh --timer   also install + enable the systemd --user timer
 set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=/dev/null
 distro() { [ -r /etc/os-release ] && . /etc/os-release && echo "${ID:-} ${ID_LIKE:-}"; }
 
 if ! command -v restic >/dev/null; then

@@ -6,12 +6,15 @@
 set -euo pipefail
 STATE_DIR="${STATE_DIR:-$HOME/.local/state/beaver}"
 
+# shellcheck source=/dev/null
 _distro() { [ -r /etc/os-release ] && . /etc/os-release && echo "${ID:-} ${ID_LIKE:-}"; }
 
 capture() {
   mkdir -p "$STATE_DIR"
-  echo "$(_distro)" > "$STATE_DIR/distro.txt"
-  command -v flatpak >/dev/null && flatpak list --app --columns=application > "$STATE_DIR/flatpak.txt" || true
+  _distro > "$STATE_DIR/distro.txt"
+  if command -v flatpak >/dev/null; then
+    flatpak list --app --columns=application > "$STATE_DIR/flatpak.txt" || true
+  fi
   systemctl list-unit-files --state=enabled --no-legend 2>/dev/null | awk '{print $1}' > "$STATE_DIR/services-system.txt" || true
   systemctl --user list-unit-files --state=enabled --no-legend 2>/dev/null | awk '{print $1}' > "$STATE_DIR/services-user.txt" || true
 
@@ -46,10 +49,10 @@ restore_packages() {
   case "$(_distro)" in
     *bazzite*|*fedora*)
       if [ -s "$STATE_DIR/layered-packages.txt" ]; then
-        echo ">> layering rpm-ostree packages (reboot after)"; sudo rpm-ostree install --idempotent $(tr '\n' ' ' < "$STATE_DIR/layered-packages.txt") || true
+        echo ">> layering rpm-ostree packages (reboot after)"; mapfile -t layered < "$STATE_DIR/layered-packages.txt"; sudo rpm-ostree install --idempotent "${layered[@]}" || true
       fi ;;
     *cachyos*|*arch*)
-      [ -s "$STATE_DIR/pacman-native.txt" ] && { echo ">> installing native pkgs"; sudo pacman -S --needed --noconfirm - < "$STATE_DIR/pacman-native.txt" || true; }
+      [ -s "$STATE_DIR/pacman-native.txt" ] && { echo ">> installing native pkgs"; sudo pacman -S --needed --noconfirm - <<< "$(cat "$STATE_DIR/pacman-native.txt")" || true; }
       [ -s "$STATE_DIR/pacman-aur.txt" ] && echo ">> AUR pkgs to reinstall with your helper (paru/yay): $(tr '\n' ' ' < "$STATE_DIR/pacman-aur.txt")" ;;
   esac
   echo ">> package restore done."
